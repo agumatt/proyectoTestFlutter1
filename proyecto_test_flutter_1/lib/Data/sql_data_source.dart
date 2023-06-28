@@ -93,34 +93,24 @@ class SQLdataSource implements DataSource {
 
     final personaJSON = personasQueryResult[0];
 
-    String personaID = personaJSON['id'] as String;
+    String personaId = personaJSON['id'] as String;
 
     final relacionesQueryResult = await db.query('relaciones',
         where: 'persona1 = ? OR persona2 = ?',
-        whereArgs: [personaID, personaID]);
-
-    List<String> relaciones = [];
-    for (final relacionJSON in relacionesQueryResult) {
-      if (relacionJSON['persona1'] != personaID &&
-          !relaciones.contains(relacionJSON['persona1'])) {
-        relaciones.add(relacionJSON['persona1'] as String);
-      } else if (relacionJSON['persona2'] != personaID &&
-          !relaciones.contains(relacionJSON['persona2'])) {
-        relaciones.add(relacionJSON['persona2'] as String);
-      }
-    }
-    return Persona.fromJSON(personaJSON, relaciones);
+        whereArgs: [personaId, personaId]);
+    return Persona.fromJSON(
+        personaJSON, relacionesToList(relacionesQueryResult, personaId));
   }
 
   @override
-  Future<void> clearDataSource() async {
+  clearDataSource() async {
     sql.Database db = await _getDB();
 
     db.delete('personas');
   }
 
   @override
-  Future<List<Persona>> retrieveAll() async {
+  retrieveAll() async {
     sql.Database db = await _getDB();
 
     final personasQueryResult = await db.query('personas');
@@ -129,18 +119,9 @@ class SQLdataSource implements DataSource {
     List<Persona> personas = [];
 
     for (final personaJSON in personasQueryResult) {
-      String personaID = personaJSON['id'] as String;
-      List<String> relaciones = [];
-      for (final relacionJSON in relacionesQueryResult) {
-        if (relacionJSON['persona1'] == personaID &&
-            !relaciones.contains(relacionJSON['persona2'])) {
-          relaciones.add(relacionJSON['persona2'] as String);
-        } else if (relacionJSON['persona2'] == personaID &&
-            !relaciones.contains(relacionJSON['persona1'])) {
-          relaciones.add(relacionJSON['persona1'] as String);
-        }
-      }
-      personas.add(Persona.fromJSON(personaJSON, relaciones));
+      String personaId = personaJSON['id'] as String;
+      personas.add(Persona.fromJSON(
+          personaJSON, relacionesToList(relacionesQueryResult, personaId)));
     }
 
     return personas;
@@ -159,22 +140,28 @@ class SQLdataSource implements DataSource {
 
     final personaJSON = personasQueryResult[0];
 
-    String personaID = id;
+    String personaId = id;
 
     final relacionesQueryResult = await db.query('relaciones',
         where: 'persona1 = ? OR persona2 = ?',
-        whereArgs: [personaID, personaID]);
+        whereArgs: [personaId, personaId]);
 
+    return Persona.fromJSON(
+        personaJSON, relacionesToList(relacionesQueryResult, personaId));
+  }
+
+  List<String> relacionesToList(
+      List<Map<String, Object?>> relacionesQueryResult, String personaId) {
     List<String> relaciones = [];
     for (final relacionJSON in relacionesQueryResult) {
-      if (relacionJSON['persona1'] != personaID &&
-          !relaciones.contains(relacionJSON['persona1'])) {
-        relaciones.add(relacionJSON['persona1'] as String);
-      } else if (relacionJSON['persona2'] != personaID &&
+      if (relacionJSON['persona1'] == personaId &&
           !relaciones.contains(relacionJSON['persona2'])) {
         relaciones.add(relacionJSON['persona2'] as String);
+      } else if (relacionJSON['persona2'] == personaId &&
+          !relaciones.contains(relacionJSON['persona1'])) {
+        relaciones.add(relacionJSON['persona1'] as String);
       }
     }
-    return Persona.fromJSON(personaJSON, relaciones);
+    return relaciones;
   }
 }
