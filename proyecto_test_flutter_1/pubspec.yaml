@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: ^2.2.8+4 
-  uuid:
   equatable:
   go_router:
   google_fonts:

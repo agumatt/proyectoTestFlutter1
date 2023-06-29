@@ -1,40 +1,31 @@
-import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 
 class Persona extends Equatable {
-  final String id;
-  final String nombres;
-  final String apellidos;
+  final String usuario;
   final String email;
   final String sobreMi;
   final int avatarIndex;
-  final List<String> relaciones; // lista de id's
+  final List<String> relaciones; // lista de usuarios relacionados
 
   Persona({
-    String? id,
-    required this.nombres,
-    required this.apellidos,
+    required this.usuario,
     this.email = '',
     this.sobreMi = '',
     this.avatarIndex = 0,
     this.relaciones = const [],
-  }) : this.id = id ?? const Uuid().v4() {
-    assert(!relaciones.contains(id));
+  }) {
+    assert(!relaciones.contains(usuario));
     assert(0 <= avatarIndex && avatarIndex < 3);
   }
 
   Persona copyWith({
-    nombres,
-    apellidos,
     email,
     sobreMi,
     avatarIndex,
     relaciones,
   }) =>
       Persona(
-          id: id,
-          nombres: nombres ?? this.nombres,
-          apellidos: apellidos ?? this.apellidos,
+          usuario: usuario,
           sobreMi: sobreMi ?? this.sobreMi,
           email: email ?? this.email,
           avatarIndex: avatarIndex ?? this.avatarIndex,
@@ -42,9 +33,7 @@ class Persona extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'nombres': nombres,
-      'apellidos': apellidos,
+      'usuario': usuario,
       'email': email,
       'sobreMi': sobreMi,
       'avatarIndex': avatarIndex,
@@ -53,13 +42,9 @@ class Persona extends Equatable {
 
   static Persona fromJSON(
       Map<String, Object?> persona, List<String> relaciones) {
-    assert(persona['id'] != null);
-    assert(persona['nombres'] != null);
-    assert(persona['apellidos'] != null);
+    assert(persona['usuario'] != null);
     return Persona(
-        id: persona['id'] as String,
-        nombres: persona['nombres'] as String,
-        apellidos: persona['apellidos'] as String,
+        usuario: persona['usuario'] as String,
         email: (persona['email'] ?? '') as String,
         avatarIndex: (persona['avatarIndex'] ?? 0) as int,
         sobreMi: (persona['sobreMi'] ?? '') as String,
@@ -67,6 +52,5 @@ class Persona extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, nombres, apellidos, email, sobreMi, avatarIndex, relaciones];
+  List<Object?> get props => [usuario, email, sobreMi, avatarIndex, relaciones];
 }
