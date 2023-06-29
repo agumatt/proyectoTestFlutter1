@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -26,7 +25,7 @@ class WelcomeView extends StatelessWidget {
               Opacity(
                 opacity: 0.95,
                 child: Card(
-                  color: Colors.lightBlue.shade100,
+                  color: Colors.lightBlue.shade50,
                   child: Column(
                     children: [
                       const BoxRow(true),
@@ -45,6 +44,10 @@ class WelcomeView extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 270,
+              ),
+              ButtonRow(),
             ],
           ),
         ),
@@ -65,9 +68,9 @@ class BoxRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-          15,
+          12,
           (index) => SizedBox(
-            width: 25,
+            width: 30,
             height: 25,
             child: (firstColored ? index.isEven : index.isOdd)
                 ? Container(color: Colors.orange.shade400)
@@ -75,6 +78,40 @@ class BoxRow extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ButtonRow extends StatelessWidget {
+  const ButtonRow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.lightBlue.shade50)),
+            onPressed: () {},
+            icon: Icon(Icons.stars),
+            label: Text(
+              "Modo libre",
+              style: TextStyle(fontSize: 18),
+            )),
+        SizedBox(width: 20),
+        TextButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.lightBlue.shade50)),
+            onPressed: () {},
+            icon: Icon(Icons.person),
+            label: Text(
+              "Modo usuario",
+              style: TextStyle(fontSize: 18),
+            )),
+      ],
     );
   }
 }
