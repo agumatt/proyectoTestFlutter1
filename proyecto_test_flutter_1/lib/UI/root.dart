@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:proyecto_test_flutter_1/UI/welcome_view.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+
+  final _router = GoRouter(routes: []);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      home: WelcomeView(),
     );
   }
 }
