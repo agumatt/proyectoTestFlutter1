@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-class PersonForm extends StatefulWidget {
-  const PersonForm({super.key});
+class PersonFormView extends StatefulWidget {
+  const PersonFormView({super.key});
 
   @override
-  State<PersonForm> createState() => _PersonFormState();
+  State<PersonFormView> createState() => _PersonFormViewState();
 }
 
-class _PersonFormState extends State<PersonForm> {
+class _PersonFormViewState extends State<PersonFormView> {
   final formKey = GlobalKey<FormState>();
-  final nombresTextEditingController = TextEditingController();
-  final apellidosTextEditingController = TextEditingController();
+  final usuarioTextEditingController = TextEditingController();
   final emailTextEditingController = TextEditingController();
   final sobreMiTextEditingController = TextEditingController();
   final agregarRelacionTextEditingController = TextEditingController();
@@ -22,10 +21,7 @@ class _PersonFormState extends State<PersonForm> {
         child: Column(
           children: [
             TextFormField(
-              controller: nombresTextEditingController,
-            ),
-            TextFormField(
-              controller: apellidosTextEditingController,
+              controller: usuarioTextEditingController,
             ),
             TextFormField(
               controller: emailTextEditingController,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_test_flutter_1/UI/navigation.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -30,8 +32,8 @@ class WelcomeView extends StatelessWidget {
                     children: [
                       const BoxRow(true),
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 20),
                         child: Text(
                           'Bienvenid@ a la app de las relaciones',
                           textAlign: TextAlign.center,
@@ -44,10 +46,10 @@ class WelcomeView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 270,
               ),
-              ButtonRow(),
+              const ButtonRow(),
             ],
           ),
         ),
@@ -95,19 +97,21 @@ class ButtonRow extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.lightBlue.shade50)),
             onPressed: () {},
-            icon: Icon(Icons.stars),
-            label: Text(
+            icon: const Icon(Icons.stars),
+            label: const Text(
               "Modo libre",
               style: TextStyle(fontSize: 18),
             )),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         TextButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.lightBlue.shade50)),
-            onPressed: () {},
-            icon: Icon(Icons.person),
-            label: Text(
+            onPressed: () {
+              context.goNamed(RouteNames.peoplePage);
+            },
+            icon: const Icon(Icons.person),
+            label: const Text(
               "Modo usuario",
               style: TextStyle(fontSize: 18),
             )),

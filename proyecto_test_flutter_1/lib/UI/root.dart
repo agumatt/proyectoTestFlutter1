@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-import 'package:proyecto_test_flutter_1/UI/welcome_view.dart';
+
+import 'navigation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,12 +14,10 @@ void main() {
 class MainApp extends StatelessWidget {
   MainApp({super.key});
 
-  final _router = GoRouter(routes: []);
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WelcomeView(),
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 }
