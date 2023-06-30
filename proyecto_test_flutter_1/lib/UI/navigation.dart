@@ -15,8 +15,7 @@ class RouteNames {
 final GlobalKey<NavigatorState> _rootNavKey = GlobalKey();
 final GlobalKey<NavigatorState> _shellNavKey = GlobalKey();
 
-final router =
-    GoRouter(navigatorKey: _rootNavKey, initialLocation: '/people', routes: [
+final router = GoRouter(navigatorKey: _rootNavKey, routes: [
   GoRoute(
     path: '/',
     name: RouteNames.welcomePage,

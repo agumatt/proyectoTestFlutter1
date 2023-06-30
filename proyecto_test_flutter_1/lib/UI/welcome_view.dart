@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_test_flutter_1/Domain/app_mode_bloc.dart';
+import 'package:proyecto_test_flutter_1/Domain/app_mode_event.dart';
 import 'package:proyecto_test_flutter_1/UI/navigation.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -84,8 +88,15 @@ class BoxRow extends StatelessWidget {
   }
 }
 
-class ButtonRow extends StatelessWidget {
+class ButtonRow extends StatefulWidget {
   const ButtonRow({super.key});
+
+  @override
+  State<ButtonRow> createState() => _ButtonRowState();
+}
+
+class _ButtonRowState extends State<ButtonRow> {
+  late final TextEditingController userInputController;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +107,10 @@ class ButtonRow extends StatelessWidget {
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.lightBlue.shade50)),
-            onPressed: () {},
+            onPressed: () {
+              context.read<AppModeBloc>().add(FreeModeSet());
+              context.goNamed(RouteNames.peoplePage);
+            },
             icon: const Icon(Icons.stars),
             label: const Text(
               "Modo libre",
@@ -108,7 +122,7 @@ class ButtonRow extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.lightBlue.shade50)),
             onPressed: () {
-              context.goNamed(RouteNames.peoplePage);
+              userInputDialog(context);
             },
             icon: const Icon(Icons.person),
             label: const Text(
@@ -118,4 +132,42 @@ class ButtonRow extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    userInputController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    userInputController.dispose();
+    super.dispose();
+  }
+
+  Future userInputDialog(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('Ingresa tu usuario para continuar'),
+            content: TextField(
+              autofocus: true,
+              controller: userInputController,
+              decoration: InputDecoration(hintText: 'nombre de usuario'),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text('Cancelar')),
+              TextButton(
+                  onPressed: () {
+                    context
+                        .read<AppModeBloc>()
+                        .add(UserModeSet(userInputController.text));
+                    context.goNamed(RouteNames.peoplePage);
+                  },
+                  child: Text('Confirmar'))
+            ],
+          ));
 }

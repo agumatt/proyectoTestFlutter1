@@ -13,6 +13,8 @@ dependencies:
   equatable:
   go_router:
   google_fonts:
+  bloc:
+  flutter_bloc:
   
 dev_dependencies:
   flutter_test:

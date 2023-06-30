@@ -20,6 +20,14 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       appBar: AppBar(
         title: Text("La app de las relaciones!"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.goNamed(RouteNames.welcomePage);
+            },
+            icon: Icon(Icons.home),
+          )
+        ],
       ),
       body: widget.content,
       bottomNavigationBar: BottomNavigationBar(
