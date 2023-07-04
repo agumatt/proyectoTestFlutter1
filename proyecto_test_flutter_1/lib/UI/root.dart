@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_test_flutter_1/Domain/app_mode_bloc.dart';
+import 'package:proyecto_test_flutter_1/Data/sql_data_source.dart';
 
 import 'navigation.dart';
+import 'bloc/app_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,12 +19,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => AppModeBloc(),
-          ),
-        ],
+    return BlocProvider<AppBloc>(
+        create: (context) => AppBloc(SQLdataSource()),
         child: MaterialApp.router(
           routerConfig: router,
         ));

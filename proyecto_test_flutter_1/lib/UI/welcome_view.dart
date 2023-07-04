@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:proyecto_test_flutter_1/Domain/app_mode_bloc.dart';
-import 'package:proyecto_test_flutter_1/Domain/app_mode_event.dart';
-import 'package:proyecto_test_flutter_1/UI/navigation.dart';
+
+import 'bloc/app_bloc.dart';
+import 'bloc/app_event.dart';
+import 'navigation.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -108,7 +108,7 @@ class _ButtonRowState extends State<ButtonRow> {
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.lightBlue.shade50)),
             onPressed: () {
-              context.read<AppModeBloc>().add(FreeModeSet());
+              context.read<AppBloc>().add(FreeModeSet());
               context.goNamed(RouteNames.peoplePage);
             },
             icon: const Icon(Icons.stars),
@@ -148,7 +148,7 @@ class _ButtonRowState extends State<ButtonRow> {
   Future userInputDialog(BuildContext context) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            title: Text('Ingresa tu usuario para continuar'),
+            title: Text('Ingresa un nombre de usuario nuevo o existente'),
             content: TextField(
               autofocus: true,
               controller: userInputController,
@@ -163,7 +163,7 @@ class _ButtonRowState extends State<ButtonRow> {
               TextButton(
                   onPressed: () {
                     context
-                        .read<AppModeBloc>()
+                        .read<AppBloc>()
                         .add(UserModeSet(userInputController.text));
                     context.goNamed(RouteNames.peoplePage);
                   },

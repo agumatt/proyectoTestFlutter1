@@ -5,6 +5,6 @@ abstract class DataSource {
   Future<void> editPerson(Persona persona);
   Future<void> deletePerson(Persona persona);
   Future<Persona?> retrievePerson(String usuario);
-  Future<List<Persona>> retrieveAll();
   Future<void> clearDataSource();
+  Future<List<Persona>> retrieveAll();
 }

@@ -14,6 +14,8 @@ class _PersonFormViewState extends State<PersonFormView> {
   final sobreMiTextEditingController = TextEditingController();
   final agregarRelacionTextEditingController = TextEditingController();
 
+  List<String> relaciones = [];
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -32,7 +34,7 @@ class _PersonFormViewState extends State<PersonFormView> {
             Wrap(
               direction: Axis.horizontal,
               children: [],
-            )
+            ),
           ],
         ));
   }
