@@ -7,7 +7,8 @@
         {
             "name": "proyecto_test_flutter_1",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/UI/root.dart"
         },
         {
             "name": "proyecto_test_flutter_1 (profile mode)",

@@ -5,6 +5,17 @@ enum PeopleDataStatus { empty, loading, available }
 
 enum AppMode { userMode, freeMode }
 
+extension AppModeExtension on AppMode {
+  bool get isUserMode => this == AppMode.userMode;
+  bool get isFreeMode => this == AppMode.freeMode;
+}
+
+extension PeopleDataStatusExtension on PeopleDataStatus {
+  bool get isEmpty => this == PeopleDataStatus.empty;
+  bool get isLoading => this == PeopleDataStatus.loading;
+  bool get isAvailable => this == PeopleDataStatus.available;
+}
+
 class AppState extends Equatable {
   final PeopleDataStatus status;
   final AppMode appMode;
@@ -12,7 +23,7 @@ class AppState extends Equatable {
   final List<Persona> personas;
 
   AppState(this.status, this.appMode, this.personas, {this.usuario}) {
-    if (appMode == AppMode.userMode) {
+    if (appMode.isUserMode) {
       assert(usuario != null);
     }
   }

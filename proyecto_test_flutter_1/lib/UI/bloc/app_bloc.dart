@@ -23,7 +23,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } else {
       await _dataSource.editPerson(event.persona);
     }
-    _fetchPeopleData(emit, state.appMode, state.usuario);
+    await _fetchPeopleData(emit, state.appMode, state.usuario);
   }
 
   _onUserModeSet(UserModeSet event, Emitter emit) async {
@@ -31,11 +31,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (persona == null) {
       await _dataSource.addPerson(Persona(usuario: event.usuario));
     }
-    _fetchPeopleData(emit, AppMode.userMode, event.usuario);
+    await _fetchPeopleData(emit, AppMode.userMode, event.usuario);
   }
 
   _onFreeModeSet(FreeModeSet event, Emitter emit) async {
-    _fetchPeopleData(emit, AppMode.freeMode, null);
+    await _fetchPeopleData(emit, AppMode.freeMode, null);
   }
 
   _fetchPeopleData(Emitter emit, AppMode appMode, String? usuario) async {

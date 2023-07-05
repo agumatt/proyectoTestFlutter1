@@ -15,7 +15,7 @@ class Persona extends Equatable {
     this.relaciones = const [],
   }) {
     assert(!relaciones.contains(usuario));
-    assert(0 <= avatarIndex && avatarIndex < 3);
+    assert(0 <= avatarIndex && avatarIndex <= 4);
   }
 
   Persona copyWith({

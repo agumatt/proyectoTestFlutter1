@@ -16,7 +16,7 @@ class PeopleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
-        if (state.status != PeopleDataStatus.available) {
+        if (!state.status.isAvailable) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -25,7 +25,7 @@ class PeopleView extends StatelessWidget {
         int numberOfPages = (state.personas.length / peoplePerPage).ceil();
 
         late final personasSeleccionadas;
-        if (state.appMode == AppMode.userMode) {
+        if (state.appMode.isUserMode) {
           Persona personaUsuario = state.personas
               .firstWhere((element) => element.usuario == state.usuario);
           personasSeleccionadas = state.personas
@@ -37,7 +37,9 @@ class PeopleView extends StatelessWidget {
         }
         return Scaffold(
             appBar: AppBar(
-              title: state.appMode == AppMode.userMode
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.lightBlue,
+              title: state.appMode.isUserMode
                   ? Text("Relaciones de ${state.usuario}")
                   : Text("Personas disponibles"),
             ),
@@ -69,26 +71,32 @@ class PeoplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ListView(
-          children: List.generate(
-              personas.length,
-              (index) => Hero(
-                    tag: 'personDetails_${personas[index].usuario}',
-                    child: ListTile(
-                      title: Text(personas[index].usuario),
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(
-                            'assets/avatars/avatar${personas[index].avatarIndex}'),
+        Container(
+          height: 550,
+          child: ListView(
+            children: List.generate(
+                personas.length,
+                (index) => Hero(
+                      tag: 'personDetails_${personas[index].usuario}',
+                      child: ListTile(
+                        title: Text(personas[index].usuario),
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(
+                              'assets/avatars/avatar${personas[index].avatarIndex}.jpeg'),
+                        ),
+                        trailing: TextButton(
+                          child: Text("Ver detalles"),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    PersonDetails(personas[index])));
+                          },
+                        ),
                       ),
-                      trailing: TextButton(
-                        child: Text("Ver detalles"),
-                        onPressed: () {},
-                      ),
-                    ),
-                  )),
+                    )),
+          ),
         ),
         Text("Página $currentPage de $numberOfPages"),
       ],
@@ -105,8 +113,9 @@ class PersonDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text("Detalles"),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.lightBlue,
       ),
       body: Column(children: [
         Hero(
@@ -114,8 +123,8 @@ class PersonDetails extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage:
-                    AssetImage('assets/avatars/avatar${persona.avatarIndex}'),
+                backgroundImage: AssetImage(
+                    'assets/avatars/avatar${persona.avatarIndex}.jpeg'),
               ),
               Text(persona.usuario),
             ],
