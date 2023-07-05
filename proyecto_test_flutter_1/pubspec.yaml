@@ -15,6 +15,7 @@ dependencies:
   google_fonts:
   bloc:
   flutter_bloc:
+  email_validator:
   
 dev_dependencies:
   flutter_test:

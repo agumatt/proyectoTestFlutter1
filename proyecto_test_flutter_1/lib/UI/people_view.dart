@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:proyecto_test_flutter_1/UI/widgets/avatars.dart';
 
 import '../Data/person_model.dart';
 import 'bloc/app_bloc.dart';
@@ -82,10 +83,7 @@ class PeoplePage extends StatelessWidget {
                       tag: 'personDetails_${personas[index].usuario}',
                       child: ListTile(
                         title: Text(personas[index].usuario),
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage(
-                              'assets/avatars/avatar${personas[index].avatarIndex}.jpeg'),
-                        ),
+                        leading: AvatarWidget(personas[index].avatarIndex),
                         trailing: TextButton(
                           child: Text("Ver detalles"),
                           onPressed: () {
@@ -122,10 +120,7 @@ class PersonDetails extends StatelessWidget {
           tag: 'personDetails_${persona.usuario}',
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(
-                    'assets/avatars/avatar${persona.avatarIndex}.jpeg'),
-              ),
+              AvatarWidget(persona.avatarIndex),
               Text(persona.usuario),
             ],
           ),
