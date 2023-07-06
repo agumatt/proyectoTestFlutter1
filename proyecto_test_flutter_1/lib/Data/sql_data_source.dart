@@ -1,6 +1,7 @@
 import 'package:proyecto_test_flutter_1/Data/person_model.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import 'data_source.dart';
 
@@ -43,6 +44,8 @@ class SQLdataSource implements DataSource {
             'relaciones', {'persona1': persona.usuario, 'persona2': usuario},
             conflictAlgorithm: sql.ConflictAlgorithm.ignore);
       }
+    } else {
+      throw (Exception("Usuario ya existente"));
     }
   }
 
@@ -74,6 +77,8 @@ class SQLdataSource implements DataSource {
             'relaciones', {'persona1': persona.usuario, 'persona2': id},
             conflictAlgorithm: sql.ConflictAlgorithm.ignore);
       }
+    } else {
+      throw (Exception("Error al editar persona"));
     }
   }
 

@@ -27,8 +27,7 @@ class PeopleView extends StatelessWidget {
 
         late final personasSeleccionadas;
         if (state.appMode.isUserMode) {
-          Persona personaUsuario = state.personas
-              .firstWhere((element) => element.usuario == state.usuario);
+          Persona personaUsuario = state.personaUsuario!;
           personasSeleccionadas = state.personas
               .where((element) =>
                   personaUsuario.relaciones.contains(element.usuario))

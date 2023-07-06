@@ -5,12 +5,7 @@ import 'package:proyecto_test_flutter_1/UI/main_view.dart';
 import 'package:proyecto_test_flutter_1/UI/people_view.dart';
 import 'package:proyecto_test_flutter_1/UI/welcome_view.dart';
 
-class RouteNames {
-  static const welcomePage = 'welcomePage';
-  static const formPage = 'formPage';
-  static const peoplePage = 'peoplePage';
-  static const personDetailsPage = 'personDetailsPage';
-}
+import '../Misc/constants.dart';
 
 final GlobalKey<NavigatorState> _rootNavKey = GlobalKey();
 final GlobalKey<NavigatorState> _shellNavKey = GlobalKey();

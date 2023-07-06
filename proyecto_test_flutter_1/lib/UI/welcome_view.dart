@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Misc/constants.dart';
 import 'bloc/app_bloc.dart';
 import 'bloc/app_event.dart';
-import 'navigation.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});

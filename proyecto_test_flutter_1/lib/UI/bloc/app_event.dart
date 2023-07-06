@@ -4,9 +4,14 @@ sealed class AppEvent {}
 
 class PeopleListRequested extends AppEvent {}
 
-class PersonCreatedOrUpdated extends AppEvent {
+class PersonUpdated extends AppEvent {
   final Persona persona;
-  PersonCreatedOrUpdated(this.persona);
+  PersonUpdated(this.persona);
+}
+
+class PersonCreated extends AppEvent {
+  final Persona persona;
+  PersonCreated(this.persona);
 }
 
 class UserModeSet extends AppEvent {
@@ -15,3 +20,5 @@ class UserModeSet extends AppEvent {
 }
 
 class FreeModeSet extends AppEvent {}
+
+class FormProcessed extends AppEvent {}

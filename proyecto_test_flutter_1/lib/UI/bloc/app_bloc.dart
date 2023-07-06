@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:proyecto_test_flutter_1/Data/data_source.dart';
 
@@ -12,18 +10,37 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppBloc(this._dataSource)
       : super(AppState(PeopleDataStatus.empty, AppMode.freeMode, const [])) {
-    on<PersonCreatedOrUpdated>(_onPersonCreatedOrUpdated);
+    on<PersonCreated>(_onPersonCreated);
+    on<PersonUpdated>(_onPersonUpdated);
     on<FreeModeSet>(_onFreeModeSet);
     on<UserModeSet>(_onUserModeSet);
+    on<FormProcessed>(_onFormProcessed);
   }
 
-  _onPersonCreatedOrUpdated(PersonCreatedOrUpdated event, Emitter emit) async {
-    if (await _dataSource.retrievePerson(event.persona.usuario) == null) {
+  _onPersonCreated(PersonCreated event, Emitter emit) async {
+    try {
       await _dataSource.addPerson(event.persona);
-    } else {
-      await _dataSource.editPerson(event.persona);
+      emit(AppState(state.status, state.appMode, state.personas,
+          usuario: state.usuario, dbStatus: DBStatus.success));
+      await _fetchPeopleData(
+          emit, state.appMode, state.usuario, DBStatus.success);
+    } catch (e) {
+      emit(AppState(state.status, state.appMode, state.personas,
+          usuario: state.usuario, dbStatus: DBStatus.failure));
     }
-    await _fetchPeopleData(emit, state.appMode, state.usuario);
+  }
+
+  _onPersonUpdated(PersonUpdated event, Emitter emit) async {
+    try {
+      await _dataSource.editPerson(event.persona);
+      emit(AppState(state.status, state.appMode, state.personas,
+          usuario: state.usuario, dbStatus: DBStatus.success));
+      await _fetchPeopleData(
+          emit, state.appMode, state.usuario, DBStatus.success);
+    } catch (e) {
+      emit(AppState(state.status, state.appMode, state.personas,
+          usuario: state.usuario, dbStatus: DBStatus.failure));
+    }
   }
 
   _onUserModeSet(UserModeSet event, Emitter emit) async {
@@ -31,18 +48,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (persona == null) {
       await _dataSource.addPerson(Persona(usuario: event.usuario));
     }
-    await _fetchPeopleData(emit, AppMode.userMode, event.usuario);
+    await _fetchPeopleData(
+        emit, AppMode.userMode, event.usuario, DBStatus.unknown);
   }
 
   _onFreeModeSet(FreeModeSet event, Emitter emit) async {
-    await _fetchPeopleData(emit, AppMode.freeMode, null);
+    await _fetchPeopleData(emit, AppMode.freeMode, null, DBStatus.unknown);
   }
 
-  _fetchPeopleData(Emitter emit, AppMode appMode, String? usuario) async {
+  _fetchPeopleData(
+      Emitter emit, AppMode appMode, String? usuario, DBStatus dbStatus) async {
     emit(AppState(PeopleDataStatus.loading, appMode, const [],
-        usuario: usuario));
+        usuario: usuario, dbStatus: dbStatus));
     final List<Persona> personas = await _dataSource.retrieveAll();
     emit(AppState(PeopleDataStatus.available, appMode, personas,
-        usuario: usuario));
+        usuario: usuario, dbStatus: dbStatus));
+  }
+
+  _onFormProcessed(FormProcessed event, Emitter<AppState> emit) {
+    emit(AppState(state.status, state.appMode, state.personas,
+        usuario: state.usuario, dbStatus: DBStatus.unknown));
   }
 }

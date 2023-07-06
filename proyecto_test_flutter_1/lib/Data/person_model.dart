@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:proyecto_test_flutter_1/Misc/constants.dart';
 
 class Persona extends Equatable {
   final String usuario;
@@ -15,14 +16,14 @@ class Persona extends Equatable {
     this.relaciones = const [],
   }) {
     assert(!relaciones.contains(usuario));
-    assert(0 <= avatarIndex && avatarIndex <= 4);
+    assert(0 <= avatarIndex && avatarIndex < Avatars.numberOfAvatars);
   }
 
   Persona copyWith({
-    email,
-    sobreMi,
-    avatarIndex,
-    relaciones,
+    String? email,
+    String? sobreMi,
+    int? avatarIndex,
+    List<String>? relaciones,
   }) =>
       Persona(
           usuario: usuario,
