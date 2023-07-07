@@ -6,5 +6,10 @@ class RouteNames {
   static const welcomePage = 'welcomePage';
   static const formPage = 'formPage';
   static const peoplePage = 'peoplePage';
-  static const personDetailsPage = 'personDetailsPage';
+}
+
+class RoutePaths {
+  static const welcomePage = '/';
+  static const formPage = '/form';
+  static const peoplePage = '/people';
 }

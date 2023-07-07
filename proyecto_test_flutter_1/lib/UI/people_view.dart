@@ -82,7 +82,7 @@ class PeoplePage extends StatelessWidget {
             children: List.generate(
                 personas.length,
                 (index) => Hero(
-                      tag: 'personDetails_${personas[index].usuario}',
+                      tag: 'personDetails_$index}',
                       child: ListTile(
                         title: Text(personas[index].usuario),
                         leading: AvatarWidget(personas[index].avatarIndex),
@@ -91,7 +91,7 @@ class PeoplePage extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
-                                    PersonDetails(personas[index])));
+                                    PersonDetails(personas[index], index)));
                           },
                         ),
                       ),
@@ -105,9 +105,10 @@ class PeoplePage extends StatelessWidget {
 }
 
 class PersonDetails extends StatelessWidget {
-  const PersonDetails(this.persona, {super.key});
+  const PersonDetails(this.persona, this.index, {super.key});
 
   final Persona persona;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -117,17 +118,54 @@ class PersonDetails extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.lightBlue,
       ),
-      body: Column(children: [
-        Hero(
-          tag: 'personDetails_${persona.usuario}',
-          child: Row(
-            children: [
-              AvatarWidget(persona.avatarIndex),
-              Text(persona.usuario),
-            ],
+      body: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) => ListView(children: [
+          Hero(
+            tag: 'personDetails_$index',
+            child: Card(
+              child: ListTile(
+                leading: AvatarWidget(persona.avatarIndex),
+                title: Text(persona.usuario),
+              ),
+            ),
           ),
-        )
-      ]),
+          InfoTile(title: 'Contacto', content: Text(persona.email)),
+          InfoTile(title: 'Sobre mí', content: Text(persona.sobreMi)),
+          InfoTile(
+              title: 'Relaciones',
+              content: Wrap(
+                  children: state.personas
+                      .where((p) => persona.relaciones.contains(p.usuario))
+                      .map((p) => Chip(
+                            label: Text(p.usuario),
+                            avatar: AvatarWidget(p.avatarIndex),
+                          ))
+                      .toList()))
+        ]),
+      ),
+    );
+  }
+}
+
+class InfoTile extends StatelessWidget {
+  const InfoTile({super.key, required this.title, required this.content});
+  final String title;
+  final Widget content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title),
+            content,
+          ],
+        ),
+      ),
     );
   }
 }

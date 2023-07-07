@@ -15,6 +15,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<FreeModeSet>(_onFreeModeSet);
     on<UserModeSet>(_onUserModeSet);
     on<FormProcessed>(_onFormProcessed);
+    on<InitBloc>(_onInitBloc);
+  }
+
+  _onInitBloc(InitBloc event, Emitter emit) async {
+    await _fetchPeopleData(emit, state.appMode, state.usuario, state.dbStatus);
   }
 
   _onPersonCreated(PersonCreated event, Emitter emit) async {
@@ -53,7 +58,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   _onFreeModeSet(FreeModeSet event, Emitter emit) async {
-    await _fetchPeopleData(emit, AppMode.freeMode, null, DBStatus.unknown);
+    if (state.status.isAvailable) {
+      emit(AppState(state.status, AppMode.freeMode, state.personas));
+    } else {
+      await _fetchPeopleData(emit, AppMode.freeMode, null, DBStatus.unknown);
+    }
   }
 
   _fetchPeopleData(

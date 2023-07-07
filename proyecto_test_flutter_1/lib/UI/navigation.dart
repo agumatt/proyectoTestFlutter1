@@ -12,7 +12,7 @@ final GlobalKey<NavigatorState> _shellNavKey = GlobalKey();
 
 final router = GoRouter(navigatorKey: _rootNavKey, routes: [
   GoRoute(
-    path: '/',
+    path: RoutePaths.welcomePage,
     name: RouteNames.welcomePage,
     builder: (context, state) => const WelcomeView(),
   ),
@@ -21,12 +21,12 @@ final router = GoRouter(navigatorKey: _rootNavKey, routes: [
       builder: (context, state, child) => MainView(child),
       routes: [
         GoRoute(
-          path: '/people',
+          path: RoutePaths.peoplePage,
           name: RouteNames.peoplePage,
           builder: (context, state) => PeopleView(),
         ),
         GoRoute(
-          path: '/form',
+          path: RoutePaths.formPage,
           name: RouteNames.formPage,
           builder: (context, state) => const PersonFormView(),
         ),

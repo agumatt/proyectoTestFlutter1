@@ -190,6 +190,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                     onSaved: (newValue) {
                       sobreMi = newValue;
                     },
+                    restorationId: 'form_sobreMi',
                   ),
                   const SizedBox(height: 15),
                   ElevatedButton(

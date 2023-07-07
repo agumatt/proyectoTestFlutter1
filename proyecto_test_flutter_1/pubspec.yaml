@@ -14,7 +14,7 @@ dependencies:
   go_router:
   google_fonts:
   bloc:
-  flutter_bloc:
+  flutter_bloc: 
   email_validator:
   
 dev_dependencies:

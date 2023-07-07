@@ -22,3 +22,5 @@ class UserModeSet extends AppEvent {
 class FreeModeSet extends AppEvent {}
 
 class FormProcessed extends AppEvent {}
+
+class InitBloc extends AppEvent {}
