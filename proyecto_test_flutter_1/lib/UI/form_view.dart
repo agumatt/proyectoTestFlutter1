@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:proyecto_test_flutter_1/Data/person_model.dart';
 import 'package:proyecto_test_flutter_1/Misc/constants.dart';
 import 'package:proyecto_test_flutter_1/UI/bloc/app_event.dart';
@@ -32,19 +31,22 @@ class _PersonFormViewState extends State<PersonFormView> {
     return BlocBuilder<AppBloc, AppState>(
         bloc: bloc,
         builder: (context, state) {
+          if (!state.status.isAvailable) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return Form(
               key: formKey,
               child: ListView(
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     initialValue: state.appMode.isFreeMode ? '' : state.usuario,
                     enabled: state.appMode.isFreeMode,
                     maxLength: 100,
                     decoration: InputDecoration(
-                      label: Text("Nombre de usuario"),
+                      label: const Text("Nombre de usuario"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -54,9 +56,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                     validator: (value) =>
                         value != '' ? null : 'Debes ingresar un usuario',
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   TextFormField(
                     initialValue: state.appMode.isFreeMode
                         ? ''
@@ -68,7 +68,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                             : "El correo ingresado no es válido",
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      label: Text("Correo electrónico"),
+                      label: const Text("Correo electrónico"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -76,12 +76,10 @@ class _PersonFormViewState extends State<PersonFormView> {
                       email = newValue;
                     },
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   DropdownButtonFormField(
                     decoration: InputDecoration(
-                      label: Text("Mi avatar"),
+                      label: const Text("Mi avatar"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -95,7 +93,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                             child: Row(
                               children: [
                                 AvatarWidget(index),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text("Icono ${index + 1}"),
@@ -108,9 +106,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                     validator: (value) =>
                         value != null ? null : 'Debes escoger un avatar',
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   FormField<List<Persona>>(
                     initialValue: state.appMode.isFreeMode
                         ? []
@@ -138,7 +134,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                               controller: textEditingController,
                               focusNode: focusNode,
                               decoration: InputDecoration(
-                                  label: Text("Agregar relación"),
+                                  label: const Text("Agregar relación"),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20))),
                             );
@@ -179,9 +175,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   TextFormField(
                     initialValue: state.appMode.isFreeMode
                         ? null
@@ -189,7 +183,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                     maxLines: 6,
                     maxLength: 400,
                     decoration: InputDecoration(
-                      label: Text("Sobre mí"),
+                      label: const Text("Sobre mí"),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
@@ -197,11 +191,9 @@ class _PersonFormViewState extends State<PersonFormView> {
                       sobreMi = newValue;
                     },
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   ElevatedButton(
-                    child: Text('Enviar'),
+                    child: const Text('Enviar'),
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
                         formKey.currentState!.save();
@@ -231,12 +223,12 @@ class _PersonFormViewState extends State<PersonFormView> {
                               },
                               child: AlertDialog(
                                 content: switch (state.dbStatus) {
-                                  DBStatus.unknown =>
-                                    Center(child: CircularProgressIndicator()),
-                                  DBStatus.success => Text(
+                                  DBStatus.unknown => const Center(
+                                      child: CircularProgressIndicator()),
+                                  DBStatus.success => const Text(
                                       "La información fue enviada con éxito"),
                                   DBStatus.failure =>
-                                    Text("Error al enviar la forma"),
+                                    const Text("Error al enviar la forma"),
                                 },
                                 actions: [
                                   TextButton(
@@ -249,7 +241,7 @@ class _PersonFormViewState extends State<PersonFormView> {
                                               bloc.add(FormProcessed());
                                               Navigator.of(context).pop();
                                             },
-                                      child: Text("Cerrar"))
+                                      child: const Text("Cerrar"))
                                 ],
                               ),
                             ),

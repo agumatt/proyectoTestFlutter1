@@ -2,19 +2,22 @@ import 'package:equatable/equatable.dart';
 import 'package:proyecto_test_flutter_1/Misc/constants.dart';
 
 class Persona extends Equatable {
-  final String usuario;
-  final String email;
-  final String sobreMi;
+  late final String usuario;
+  late final String email;
+  late final String sobreMi;
   final int avatarIndex;
   final List<String> relaciones; // lista de usuarios relacionados
 
   Persona({
-    required this.usuario,
-    this.email = '',
-    this.sobreMi = '',
+    required String usuario,
+    String email = '',
+    String sobreMi = '',
     this.avatarIndex = 0,
     this.relaciones = const [],
   }) {
+    this.usuario = usuario.trim();
+    this.email = email.trim();
+    this.sobreMi = sobreMi.trim();
     assert(!relaciones.contains(usuario));
     assert(0 <= avatarIndex && avatarIndex < Avatars.numberOfAvatars);
   }

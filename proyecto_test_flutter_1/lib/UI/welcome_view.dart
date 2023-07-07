@@ -148,18 +148,18 @@ class _ButtonRowState extends State<ButtonRow> {
   Future userInputDialog(BuildContext context) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            title: Text('Ingresa un nombre de usuario nuevo o existente'),
+            title: const Text('Ingresa un nombre de usuario nuevo o existente'),
             content: TextField(
               autofocus: true,
               controller: userInputController,
-              decoration: InputDecoration(hintText: 'nombre de usuario'),
+              decoration: const InputDecoration(hintText: 'nombre de usuario'),
             ),
             actions: [
               TextButton(
                   onPressed: () {
                     context.pop();
                   },
-                  child: Text('Cancelar')),
+                  child: const Text('Cancelar')),
               TextButton(
                   onPressed: () {
                     context
@@ -167,7 +167,7 @@ class _ButtonRowState extends State<ButtonRow> {
                         .add(UserModeSet(userInputController.text));
                     context.goNamed(RouteNames.peoplePage);
                   },
-                  child: Text('Confirmar'))
+                  child: const Text('Confirmar'))
             ],
           ));
 }

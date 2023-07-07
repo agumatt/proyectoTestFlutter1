@@ -14,7 +14,7 @@ final router = GoRouter(navigatorKey: _rootNavKey, routes: [
   GoRoute(
     path: '/',
     name: RouteNames.welcomePage,
-    builder: (context, state) => WelcomeView(),
+    builder: (context, state) => const WelcomeView(),
   ),
   ShellRoute(
       navigatorKey: _shellNavKey,
@@ -28,7 +28,7 @@ final router = GoRouter(navigatorKey: _rootNavKey, routes: [
         GoRoute(
           path: '/form',
           name: RouteNames.formPage,
-          builder: (context, state) => PersonFormView(),
+          builder: (context, state) => const PersonFormView(),
         ),
       ])
 ]);

@@ -22,13 +22,13 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("La app de las relaciones!"),
+        title: const Text("La app de las relaciones!"),
         actions: [
           IconButton(
             onPressed: () {
               context.goNamed(RouteNames.welcomePage);
             },
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
           )
         ],
       ),
@@ -51,13 +51,13 @@ class _MainViewState extends State<MainView> {
               },
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.people),
+                  icon: const Icon(Icons.people),
                   label: state.appMode.isFreeMode
                       ? 'Explorar personas'
                       : 'Mis relaciones',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                   label: state.appMode.isFreeMode
                       ? 'Agregar personas'
                       : 'Mi perfil',

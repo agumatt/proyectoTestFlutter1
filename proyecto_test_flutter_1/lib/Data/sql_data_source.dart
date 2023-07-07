@@ -1,7 +1,6 @@
 import 'package:proyecto_test_flutter_1/Data/person_model.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 import 'data_source.dart';
 

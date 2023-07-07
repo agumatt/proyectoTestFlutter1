@@ -22,26 +22,29 @@ class PeopleView extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        int peoplePerPage = 10;
-        int numberOfPages = (state.personas.length / peoplePerPage).ceil();
 
-        late final personasSeleccionadas;
+        late final List<Persona> personasSeleccionadas;
         if (state.appMode.isUserMode) {
-          Persona personaUsuario = state.personaUsuario!;
-          personasSeleccionadas = state.personas
-              .where((element) =>
-                  personaUsuario.relaciones.contains(element.usuario))
-              .toList();
+          personasSeleccionadas = state.relacionesUsuario!;
         } else {
           personasSeleccionadas = state.personas;
         }
+        int peoplePerPage = 10;
+        int numberOfPages =
+            (personasSeleccionadas.length / peoplePerPage).ceil();
         return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
               foregroundColor: Colors.lightBlue,
               title: state.appMode.isUserMode
-                  ? Text("Relaciones de ${state.usuario}")
-                  : Text("Personas disponibles"),
+                  ? Row(
+                      children: [
+                        Text("Relaciones de ${state.usuario}"),
+                        const SizedBox(width: 5),
+                        AvatarWidget(state.personaUsuario!.avatarIndex),
+                      ],
+                    )
+                  : const Text("Personas disponibles"),
             ),
             body: PageView(
                 children: List.generate(numberOfPages, (index) {
@@ -84,7 +87,7 @@ class PeoplePage extends StatelessWidget {
                         title: Text(personas[index].usuario),
                         leading: AvatarWidget(personas[index].avatarIndex),
                         trailing: TextButton(
-                          child: Text("Ver detalles"),
+                          child: const Text("Ver detalles"),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
@@ -110,7 +113,7 @@ class PersonDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detalles"),
+        title: const Text("Detalles"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.lightBlue,
       ),
